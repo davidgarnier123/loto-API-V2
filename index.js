@@ -8,13 +8,16 @@ const scraper = require('./scraper.js');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.uhczq5i.mongodb.net/loto?retryWrites=true&w=majority`;
 let db;
 let myDatabase;
-
+let results = [];
 
 async function connect() {
     try {
         db = await mongoose.connect(uri);
         console.log("Connected to MongoDB");
         myDatabase = db.connection.db;
+
+        const resultsCollection = myDatabase.collection('results');
+        results = await resultsCollection.find({}).toArray();
     } catch (error) {
         console.error(error);
     }
@@ -42,9 +45,7 @@ app.all('*', function (req, res, next) {
 
 app.get('/results', async (req, res) => {
     try {
-        const resultsCollection = myDatabase.collection('results');
 
-        const results = await resultsCollection.find({}).toArray();
         res.json(results);
     } catch (error) {
         console.error(error);
@@ -92,6 +93,8 @@ function scrapeLastResult() {
             } else {
                 const resultsCollection = myDatabase.collection('results');
                 resultsCollection.insertOne(scrapedLast);
+                results = [];
+                results = resultsCollection.find({}).toArray();
                 console.log(`Added 1 result to database`);
             }
         })
