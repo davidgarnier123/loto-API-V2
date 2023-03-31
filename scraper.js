@@ -26,11 +26,11 @@ async function scrapeAllData() {
           // modifier les mois avec accent pour éviter un null
           // fevrier => février
           tirage.date = replaceMonth(tirage.date);
-          console.log(tirage.date)
+          // console.log(tirage.date)
 
           const timestamp = moment(tirage.date, 'DD MMMM YYYY').unix();
           tirage.date = timestamp;
-          console.log(tirage.date)
+          // console.log(tirage.date)
           results.push(tirage);
         })
         resolve({ data: results })

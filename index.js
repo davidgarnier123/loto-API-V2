@@ -18,8 +18,8 @@ async function connect() {
 
         const resultsCollection = myDatabase.collection('results');
         results = await resultsCollection.find({}).toArray();
-        deleteAllResults();
-        scrapeAll();
+        //deleteAllResults();
+        // scrapeAll();
     } catch (error) {
         console.error(error);
     }
@@ -59,7 +59,6 @@ async function addResultsToDatabase(results) {
     const resultsCollection = myDatabase.collection('results');
     const result = await resultsCollection.insertMany(results);
     console.log(`Added ${result.insertedCount} results to database`);
-    results = await resultsCollection.find({}).toArray();
 }
 
 function deleteAllResults() {
