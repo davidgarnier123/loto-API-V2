@@ -18,6 +18,8 @@ async function connect() {
 
         const resultsCollection = myDatabase.collection('results');
         results = await resultsCollection.find({}).toArray();
+        deleteAllResults();
+        scrapeAll();
     } catch (error) {
         console.error(error);
     }
