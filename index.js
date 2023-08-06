@@ -18,8 +18,8 @@ async function connect() {
 
         const resultsCollection = myDatabase.collection('results');
         results = await resultsCollection.find({}).toArray();
-        //deleteAllResults();
-        // scrapeAll();
+        deleteAllResults();
+        scrapeAll();
     } catch (error) {
         console.error(error);
     }
@@ -53,6 +53,10 @@ app.get('/results', async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
+});
+
+app.get('/stayUp', async (req, res) => {
+        res.status(200).json({ success: true });
 });
 
 async function addResultsToDatabase(results) {
